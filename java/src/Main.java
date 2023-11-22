@@ -37,16 +37,25 @@ public class Main {
             treeString.recursiveInsert(new TreeNodeString(nameSurname));
         }
 
-        treeInt.inorder();
-        treeString.inorder();
-
-        /*
+        System.out.println("=================== ALL STUDENTS TEST ===================");
         for(int i = 0; students[i] != null; i++){
-            System.out.println(students[i].getId());
-            System.out.println(students[i].getName());
-            System.out.println(students[i].getSurname());
-            System.out.println(students[i].getAge());
-            System.out.println(students[i].getGpa());
-        }*/
+            System.out.print(students[i].getId()+ " ");
+            System.out.print(students[i].getName()+ " ");
+            System.out.print(students[i].getSurname()+ " ");
+            System.out.print(students[i].getAge()+ " ");
+            System.out.print(students[i].getGpa()+ " "+ "\n");
+        }
+
+        System.out.println("=================== TREE STRING ===================");
+        treeString.inorder();
+        System.out.println("=================== DELETED VERSION ===================");
+        treeString.delete("MohammadAliForoughiZokaolmolk");
+        treeString.inorder();
+        System.out.println("=================== TREE INT ===================");
+        treeInt.inorder();
+        System.out.println("=================== DELETED VERSION ===================");
+        treeInt.delete(123456);
+        treeInt.inorder();
+
     }
 }

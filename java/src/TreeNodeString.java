@@ -62,4 +62,18 @@ public class TreeNodeString {
             right.inorder();
         }
     }
+
+    public TreeNodeString recursiveMinSearch(){
+        if (left == null){
+            return this;
+        }
+        return left.recursiveMinSearch();
+    }
+
+    public TreeNodeString recursiveMaxSearch(){
+        if (right == null){
+            return this;
+        }
+        return right.recursiveMaxSearch();
+    }
 }
