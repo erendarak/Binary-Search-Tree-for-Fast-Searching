@@ -82,4 +82,48 @@ public class TreeInt {
             x = y;
         }
     }
+
+    public TreeNodeInt exactSearch(int value){
+        TreeNodeInt tmp = root;
+        while (tmp != null){
+            if (value < tmp.getData()){
+                tmp = tmp.getLeft();
+            } else {
+                if (value > tmp.getData()){
+                    tmp = tmp.getRight();
+                } else {
+                    return tmp;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void intervalSearch(int value, char operator) {
+        intervalSearchHelper(root, operator, value);
+    }
+
+    private void intervalSearchHelper(TreeNodeInt node, char operator, int value) {
+        if (node == null) {
+            return;
+        }
+
+        if (operator == '<') {
+            intervalSearchHelper(node.left, operator, value);
+            if (node.getData() < value) {
+                System.out.println(node.getData());
+            }
+            intervalSearchHelper(node.right, operator, value);
+        } else if (operator == '>') {
+            intervalSearchHelper(node.left, operator, value);
+            if (node.getData() > value) {
+                System.out.println(node.getData());
+            }
+            intervalSearchHelper(node.right, operator, value);
+        }
+    }
+
+
+
+
 }

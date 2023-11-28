@@ -1,8 +1,8 @@
 public class TreeNodeString {
 
-    String data;
-    TreeNodeString right;
-    TreeNodeString left;
+    protected String data;
+    protected TreeNodeString right;
+    protected TreeNodeString left;
 
     public TreeNodeString(String data) {
         this.data = data;
@@ -30,14 +30,38 @@ public class TreeNodeString {
         this.right = right;
     }
 
-    public void recursiveInsert(TreeNodeString node){
-        int compare = Character.compare(node.getData().charAt(0), data.charAt(0));
-
-        if(compare == 0){
-            for(int i = 1; compare == 0; i++){
-                compare = Character.compare(node.getData().charAt(i), data.charAt(i));
+    public void inorder(){
+        if (left != null){
+            left.inorder();
+        }
+        System.out.println(data);
+        if (right != null){
+            right.inorder();
+        }
+    }
+    /*public void recursiveInsert(TreeNodeInt node){
+        if (node.getData() < data){
+            if (left != null){
+                left.recursiveInsert(node);
+            } else {
+                left = node;
+            }
+        } else {
+            if (right != null){
+                right.recursiveInsert(node);
+            } else {
+                right = node;
             }
         }
+    }*/
+    public void recursiveInsert(TreeNodeString node){
+        //int k = Character.compare(node.getData().charAt(0), data.charAt(0));
+        int compare = node.getData().compareToIgnoreCase(data);
+        /*if(compare == 0){
+            for(int i = 0; compare == 0; i++){
+                compare = Character.compare(node.getData().charAt(i), data.charAt(i));
+            }
+        }*/
         if (compare < 0){
             if (left != null){
                 left.recursiveInsert(node);
@@ -52,17 +76,6 @@ public class TreeNodeString {
             }
         }
     }
-
-    public void inorder(){
-        if (left != null){
-            left.inorder();
-        }
-        System.out.println(data);
-        if (right != null){
-            right.inorder();
-        }
-    }
-
     public TreeNodeString recursiveMinSearch(){
         if (left == null){
             return this;
@@ -75,5 +88,9 @@ public class TreeNodeString {
             return this;
         }
         return right.recursiveMaxSearch();
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

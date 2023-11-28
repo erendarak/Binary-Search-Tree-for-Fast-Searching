@@ -70,5 +70,4 @@ public class TreeNodeInt {
         }
         return right.recursiveMaxSearch();
     }
-
 }

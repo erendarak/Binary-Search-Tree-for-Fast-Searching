@@ -1,6 +1,8 @@
+import java.util.Objects;
+
 public class TreeString {
 
-    TreeNodeString root;
+    protected TreeNodeString root;
 
     public TreeString(){
         root=null;
@@ -20,56 +22,66 @@ public class TreeString {
         }
     }
 
-    protected TreeNodeString getParent(TreeNodeString node){
+    protected TreeNodeString getParent(TreeNodeString node) {
         TreeNodeString x = root, parent = null;
-        while (x != node){
-            parent = x;
-            int compare = Character.compare(node.getData().charAt(0), x.getData().charAt(0));
-            if(compare == 0){
-                for(int i = 1; compare == 0; i++){
+
+        while (x != null && !x.equals(node)) {
+            int compare = node.getData().compareTo(x.getData());
+
+            if (compare < 0) {
+                parent = x;
+                x = x.left;
+            } else if (compare > 0) {
+                parent = x;
+                x = x.right;
+            } else {
+                for (int i = 1; compare == 0 && i < node.getData().length() && i < x.getData().length(); i++) {
                     compare = Character.compare(node.getData().charAt(i), x.getData().charAt(i));
                 }
-            }
-            if (compare < 0){
-                x = x.left;
-            } else {
-                x = x.right;
+
+                if (compare < 0) {
+                    x = x.left;
+                } else if (compare > 0) {
+                    x = x.right;
+                }
             }
         }
         return parent;
     }
 
-    public void delete(String value){
-        TreeNodeString y, x = root, parent;
-        int compare = Character.compare(value.charAt(0), x.getData().charAt(0));
-        if(compare == 0 && !value.equals(x.getData())){
-            for(int i = 0; compare == 0; i++){
-                compare = Character.compare(value.charAt(i), x.getData().charAt(i));
-            }
-        }
-        while (compare != 0){
-            if (compare < 0){
+    public void delete(String value) {
+        TreeNodeString x = root;
+        TreeNodeString parent = null;
+
+        while (x != null && !value.equals(x.getData())) {
+            int compare = value.compareTo(x.getData());
+
+            if (compare < 0) {
+                parent = x;
                 x = x.left;
-                compare = Character.compare(value.charAt(0), x.getData().charAt(0));
-            } else {
+            } else if (compare > 0) {
+                parent = x;
                 x = x.right;
-                compare = Character.compare(value.charAt(0), x.getData().charAt(0));
             }
         }
-        parent = getParent(x);
-        while (true){
-            if (x.left != null){
+
+        if (x == null) {
+            return;
+        }
+        TreeNodeString y;
+        while (true) {
+            if (x.left != null) {
                 y = x.left.recursiveMaxSearch();
                 parent = getParent(y);
             } else {
-                if (x.right != null){
+                if (x.right != null) {
                     y = x.right.recursiveMinSearch();
                     parent = getParent(y);
                 } else {
-                    if (parent == null){
+                    if (parent == null) {
                         root = null;
                     } else {
-                        if (parent.left == x){
+                        if (parent.left == x) {
                             parent.left = null;
                         } else {
                             parent.right = null;
@@ -78,8 +90,53 @@ public class TreeString {
                     break;
                 }
             }
-            x.data = y.data;
+            x.setData(y.getData());
             x = y;
         }
     }
+
+    public TreeNodeString exactSearch(String value){
+        TreeNodeString tmp = root;
+        while (tmp != null){
+            int compare = value.compareToIgnoreCase(tmp.getData());
+            if(compare == 0){
+                return tmp;
+            }
+            if (compare < 0){
+                tmp = tmp.getLeft();
+            }else{
+                if (compare > 0){
+                    tmp = tmp.getRight();
+                }else{
+                    return tmp;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void intervalSearch(String value, char operator) {
+        intervalSearchHelper(root, operator, value);
+    }
+
+    private void intervalSearchHelper(TreeNodeString node, char operator, String value) {
+        if (node == null) {
+            return;
+        }
+        int compare = value.compareToIgnoreCase(node.getData());
+        if (operator == '<') {
+            intervalSearchHelper(node.left, operator, value);
+            if (compare > 0) {
+                System.out.println(node.getData());
+            }
+            intervalSearchHelper(node.right, operator, value);
+        } else if (operator == '>') {
+            intervalSearchHelper(node.left, operator, value);
+            if (compare < 0) {
+                System.out.println(node.getData());
+            }
+            intervalSearchHelper(node.right, operator, value);
+        }
+    }
+
 }
