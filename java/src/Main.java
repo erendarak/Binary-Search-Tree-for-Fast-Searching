@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
 
@@ -13,7 +14,7 @@ public class Main {
         Student[] students = new Student[100001];
 
         try{
-            BufferedReader bf = new BufferedReader(new FileReader("C:\\Users\\Eren Darak\\Desktop\\random_data.csv"));
+            BufferedReader bf = new BufferedReader(new FileReader("C:\\Users\\TEMP\\Desktop\\random_data.csv"));
             int counter = 0;
             while((line = bf.readLine()) != null){
                 if(counter == 0){
@@ -34,14 +35,7 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        TreeInt treeInt = new TreeInt();
-        TreeString treeString = new TreeString();
-
-        for(int i = 0; students[i] != null; i++){
-            treeInt.recursiveInsert(new TreeNodeInt(students[i].getId()));
-            String nameSurname = students[i].getName() + students[i].getSurname();
-            treeString.recursiveInsert(new TreeNodeString(nameSurname));
-        }
+        //Checking students array to avoid exceptions.
 
         for(int i= 0; students[i] != null; i++){
             System.out.println(students[i].getId());
@@ -51,27 +45,32 @@ public class Main {
             System.out.println(students[i].getGpa());
         }
 
-        //treeInt.inorder();
-        //treeString.inorder();
-        //treeInt.delete(147550);
-        //treeInt.inorder();
-        //treeString.delete("WhitneyBakerMack");
-        //treeString.inorder();
-        //TreeNodeInt searchInt = treeInt.exactSearch(600574);
-        //Student searchIntStudent;
-        /*for(int i = 0; students[i] !=null; i++){
-            if(searchInt.getData()==students[i].getId()){
-                System.out.println("Result of the search:");
-                System.out.println("ID: " +students[i].getId());
-                System.out.println("Name: " +students[i].getName());
-                System.out.println("Surname: " +students[i].getSurname());
-                System.out.println("Age: " +students[i].getAge());
-                System.out.println("GPA: " +students[i].getGpa());
-                break;
-            }
-        }*/
-        //treeInt.intervalSearch(600574,'>');
-        //System.out.println(treeString.exactSearch("ShannonWolfGonzalez").getData());
-        //treeString.intervalSearch("AaronHardyPhillips",'>');
+        TreeInt treeInt = new TreeInt();
+        TreeString treeString = new TreeString();
+
+
+        //Inserting all id's to idBST namesurname's to namesurnameBST
+        //I used Name first and Surname second for ordering.
+
+        for(int i = 0; students[i] != null; i++){
+            treeInt.recursiveInsert(new TreeNodeInt(students[i].getId()));
+            String nameSurname = students[i].getName() + students[i].getSurname();
+            treeString.recursiveInsert(new TreeNodeString(nameSurname));
+        }
+
+        treeInt.intervalSearch(797774 ,'>');
+        treeInt.intervalSearch(797781, '<');
+
+        treeString.intervalSearch("BrendaMooreTodd",'<');//I used Name first and Surname second for ordering.
+        treeString.intervalSearch("LoriJordanDavis", '>');//I used Name first and Surname second for ordering.
+
+        treeInt.delete(989577);
+        treeInt.inorder();
+
+        System.out.println(treeInt.exactSearch(405824).getData());
+
+        System.out.println(treeString.exactSearch("TaylorParrishMacias").getData());
+        treeString.delete("TaylorParrishMacias");
+        System.out.println(treeString.exactSearch("TaylorParrishMacias").getData()); //THIS CODE GIVES NULL POINTER EXCEPTION BECAUSE WE ARE DELETING THIS NAME ABOVE.
     }
 }

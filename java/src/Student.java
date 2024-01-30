@@ -6,6 +6,14 @@ public class Student {
     protected int age;
     protected float gpa;
 
+    /**
+     * Constructor of our student as in given pdf.
+     * @param id
+     * @param name
+     * @param surname
+     * @param age
+     * @param gpa
+     */
     public Student(int id, String name, String surname, int age, float gpa) {
         if(id <= 999999 && id >= 100000){
             this.id = id;
@@ -20,6 +28,7 @@ public class Student {
         }
     }
 
+    //All getters and setters for students attributes.
     public int getId() {
         return id;
     }
@@ -59,5 +68,4 @@ public class Student {
     public void setGpa(float gpa) {
         this.gpa = gpa;
     }
-
 }

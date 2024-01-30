@@ -1,11 +1,15 @@
 public class TreeInt {
 
-    TreeNodeInt root;
+    protected TreeNodeInt root;
 
     public TreeInt(){
         root=null;
     }
 
+    /**
+     * This is a recursive insertion function. It adds all new nodes to root accordingly.
+     * @param node
+     */
     public void recursiveInsert(TreeNodeInt node){
         if (root == null){
             root = node;
@@ -14,26 +18,11 @@ public class TreeInt {
         }
     }
 
-    public void inorder(){
-        if (root != null){
-            root.inorder();
-        }
-    }
-
-    public TreeNodeInt recursiveMinSearch(){
-        if (root != null){
-            return root.recursiveMinSearch();
-        }
-        return null;
-    }
-
-    public TreeNodeInt recursiveMaxSearch(){
-        if (root != null){
-            return root.recursiveMaxSearch();
-        }
-        return null;
-    }
-
+    /**
+     * This method gets the parent node of the given node.
+     * @param node given node
+     * @return parent node
+     */
     protected TreeNodeInt getParent(TreeNodeInt node){
         TreeNodeInt x = root, parent = null;
         while (x != node){
@@ -47,6 +36,10 @@ public class TreeInt {
         return parent;
     }
 
+    /**
+     * This method deletes a given value from the BST.
+     * @param value given value
+     */
     public void delete(int value){
         TreeNodeInt y, x = root, parent;
         while (x.data != value){
@@ -83,6 +76,20 @@ public class TreeInt {
         }
     }
 
+    /**
+     * This method prints all nodes in increasing order.
+     */
+    public void inorder(){
+        if (root != null){
+            root.inorder();
+        }
+    }
+
+    /**
+     * This method finds exactly given value.
+     * @param value given value
+     * @return node that has given value
+     */
     public TreeNodeInt exactSearch(int value){
         TreeNodeInt tmp = root;
         while (tmp != null){
@@ -99,31 +106,39 @@ public class TreeInt {
         return null;
     }
 
-    public void intervalSearch(int value, char operator) {
-        intervalSearchHelper(root, operator, value);
+    /**
+     * This is the interval search method for given number and given operator which takes all number according to the operator
+     * @param value given value
+     * @param operator given operator
+     */
+    public void intervalSearch(int value, char operator){
+        realIntervalSearch(root,value,operator);
     }
 
-    private void intervalSearchHelper(TreeNodeInt node, char operator, int value) {
-        if (node == null) {
+    /**
+     * This is the helper method for intervalSearch method. This makes all the work.
+     * @param node root
+     * @param value given value
+     * @param operator given operator
+     */
+    public void realIntervalSearch(TreeNodeInt node, int value, char operator){
+        if(node == null){
             return;
         }
 
-        if (operator == '<') {
-            intervalSearchHelper(node.left, operator, value);
-            if (node.getData() < value) {
+        if(operator == '<'){
+            realIntervalSearch(node.left,value,operator);
+            if (node.getData() < value){
                 System.out.println(node.getData());
             }
-            intervalSearchHelper(node.right, operator, value);
-        } else if (operator == '>') {
-            intervalSearchHelper(node.left, operator, value);
-            if (node.getData() > value) {
+            realIntervalSearch(node.right,value,operator);
+        } else if (operator == '>'){
+            realIntervalSearch(node.left,value,operator);
+            if (node.getData() > value){
                 System.out.println(node.getData());
             }
-            intervalSearchHelper(node.right, operator, value);
+            realIntervalSearch(node.right,value,operator);
         }
     }
-
-
-
 
 }

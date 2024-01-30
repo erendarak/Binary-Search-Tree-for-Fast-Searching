@@ -1,13 +1,18 @@
-import java.util.Objects;
-
 public class TreeString {
 
-    protected TreeNodeString root;
+    public TreeNodeString root;
 
+    /**
+     * This is the constructor of out TreeString.
+     */
     public TreeString(){
         root=null;
     }
 
+    /**
+     * This is a recursive insertion function. It adds all new nodes to root accordingly.
+     * @param node
+     */
     public void recursiveInsert(TreeNodeString node){
         if (root == null){
             root = node;
@@ -16,32 +21,39 @@ public class TreeString {
         }
     }
 
+    /**
+     * This method prints all nodes in increasing order.
+     */
     public void inorder(){
         if (root != null){
             root.inorder();
         }
     }
 
-    protected TreeNodeString getParent(TreeNodeString node) {
+    /**
+     * This method gets the parent node of the given node.
+     * @param node given node
+     * @return parent node
+     */
+    protected TreeNodeString getParent(TreeNodeString node){
         TreeNodeString x = root, parent = null;
 
-        while (x != null && !x.equals(node)) {
+        while (x != null && x.equals(node)){
             int compare = node.getData().compareTo(x.getData());
 
-            if (compare < 0) {
+            if (compare < 0){
                 parent = x;
                 x = x.left;
             } else if (compare > 0) {
                 parent = x;
                 x = x.right;
-            } else {
-                for (int i = 1; compare == 0 && i < node.getData().length() && i < x.getData().length(); i++) {
+            } else{
+                for(int i = 1; compare == 0 && i < node.getData().length() && i < x.getData().length(); i++){
                     compare = Character.compare(node.getData().charAt(i), x.getData().charAt(i));
                 }
-
-                if (compare < 0) {
+                if(compare < 0){
                     x = x.left;
-                } else if (compare > 0) {
+                } else if(compare > 0){
                     x = x.right;
                 }
             }
@@ -49,14 +61,18 @@ public class TreeString {
         return parent;
     }
 
-    public void delete(String value) {
+    /**
+     * This method deletes a given value from the BST.
+     * @param value given value
+     */
+    public void delete(String value){
         TreeNodeString x = root;
         TreeNodeString parent = null;
 
-        while (x != null && !value.equals(x.getData())) {
-            int compare = value.compareTo(x.getData());
+        while (x != null && !value.equals(x.getData())){
+            int compare = value.compareToIgnoreCase(x.getData());
 
-            if (compare < 0) {
+            if (compare < 0){
                 parent = x;
                 x = x.left;
             } else if (compare > 0) {
@@ -64,24 +80,23 @@ public class TreeString {
                 x = x.right;
             }
         }
-
-        if (x == null) {
+        if(x==null){
             return;
         }
         TreeNodeString y;
-        while (true) {
-            if (x.left != null) {
+        while (true){
+            if (x.left != null){
                 y = x.left.recursiveMaxSearch();
                 parent = getParent(y);
             } else {
-                if (x.right != null) {
+                if (x.right != null){
                     y = x.right.recursiveMinSearch();
                     parent = getParent(y);
                 } else {
-                    if (parent == null) {
+                    if (parent == null){
                         root = null;
                     } else {
-                        if (parent.left == x) {
+                        if (parent.left == x){
                             parent.left = null;
                         } else {
                             parent.right = null;
@@ -95,19 +110,21 @@ public class TreeString {
         }
     }
 
+    /**
+     * This method finds exactly given value.
+     * @param value given value
+     * @return node that has given value
+     */
     public TreeNodeString exactSearch(String value){
         TreeNodeString tmp = root;
         while (tmp != null){
             int compare = value.compareToIgnoreCase(tmp.getData());
-            if(compare == 0){
-                return tmp;
-            }
             if (compare < 0){
                 tmp = tmp.getLeft();
-            }else{
+            } else {
                 if (compare > 0){
                     tmp = tmp.getRight();
-                }else{
+                } else {
                     return tmp;
                 }
             }
@@ -115,28 +132,38 @@ public class TreeString {
         return null;
     }
 
-    public void intervalSearch(String value, char operator) {
-        intervalSearchHelper(root, operator, value);
+    /**
+     * This is the interval search method for given number and given operator which takes all number according to the operator
+     * @param value given value
+     * @param operator given operator
+     */
+    public void intervalSearch(String value, char operator){
+        realIntervalSearch(root,value,operator);
     }
 
-    private void intervalSearchHelper(TreeNodeString node, char operator, String value) {
-        if (node == null) {
+    /**
+     * This is the helper method for intervalSearch method. This makes all the work.
+     * @param node root
+     * @param value given value
+     * @param operator given operator
+     */
+    public void realIntervalSearch(TreeNodeString node, String value, char operator){
+        if(node == null){
             return;
         }
-        int compare = value.compareToIgnoreCase(node.getData());
-        if (operator == '<') {
-            intervalSearchHelper(node.left, operator, value);
-            if (compare > 0) {
+        int compare = node.getData().compareTo(value);
+        if(operator == '<'){
+            realIntervalSearch(node.left,value,operator);
+            if (compare < 0){
                 System.out.println(node.getData());
             }
-            intervalSearchHelper(node.right, operator, value);
-        } else if (operator == '>') {
-            intervalSearchHelper(node.left, operator, value);
-            if (compare < 0) {
+            realIntervalSearch(node.right,value,operator);
+        } else if (operator == '>'){
+            realIntervalSearch(node.left,value,operator);
+            if (compare > 0){
                 System.out.println(node.getData());
             }
-            intervalSearchHelper(node.right, operator, value);
+            realIntervalSearch(node.right,value,operator);
         }
     }
-
 }
